@@ -1,13 +1,18 @@
 const gameBoard=(()=>{
     let playerOne;
+    let playerTwo;
     let gameBoardArray=["X", "O", "X", "O", "X", "O", "X", "O", "X"];
     const getArray=()=>gameBoardArray;
     const setPlayerOne=player=>playerOne=player;
     const getPlayerOne=()=>playerOne;
+    const setPlayerTwo=player=>playerTwo=player;
+    const getPlayerTwo=()=>playerTwo;
     return{
         getArray,
         setPlayerOne,
         getPlayerOne,
+        setPlayerTwo,
+        getPlayerTwo,
     }
 })();
 
@@ -24,16 +29,25 @@ const displayController=(()=>{
             mainDiv.appendChild(gridItem);
         }
         display.appendChild(mainDiv);
+        console.log(gameBoard.getPlayerOne().getName()+" "+gameBoard.getPlayerOne().getMarker());
+        console.log(gameBoard.getPlayerTwo().getName()+" "+gameBoard.getPlayerTwo().getMarker());
     };
     const getFormDetails=()=>{
         let playersName=document.getElementById("username").value;
-        let player=Player(playersName, "X");
-        gameBoard.setPlayerOne(player);
-        console.log(gameBoard.getPlayerOne().getName()+" "+gameBoard.getPlayerOne().getMarker());
-        generateGrid();
+        if (gameBoard.getPlayerOne()==undefined){
+            let player=Player(playersName, "X");
+            gameBoard.setPlayerOne(player);
+            createForm();
+        }
+        else{
+            let player=Player(playersName, "O");
+            gameBoard.setPlayerTwo(player);
+            generateGrid();
+        }
     };
     const createForm=()=>{
         let display=document.getElementById("game-container");
+        display.innerHTML="";
         display.innerHTML=`<div id=form-container>
                              <form id="user-input-form">
                                 <label for="username">Enter your name:</label><br>
