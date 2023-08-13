@@ -34,6 +34,7 @@ const displayController=(()=>{
     };
     const getFormDetails=()=>{
         let playersName=document.getElementById("username").value;
+        if (playersName=="") return;
         if (gameBoard.getPlayerOne()==undefined){
             let player=Player(playersName, "X");
             gameBoard.setPlayerOne(player);
@@ -48,15 +49,28 @@ const displayController=(()=>{
     const createForm=()=>{
         let display=document.getElementById("game-container");
         display.innerHTML="";
-        display.innerHTML=`<div id=form-container>
+        if (gameBoard.getPlayerOne()==undefined){
+            display.innerHTML=`<div id=form-container>
                              <form id="user-input-form">
-                                <label for="username">Enter your name:</label><br>
+                                <label for="username">Enter first player name:</label><br>
                                 <input type="text" name="username" id="username">
-                             </form>
+                             </form>;
                              <div id="form-button-container">
                                 <button onclick="displayController.getFormDetails()" class="submit-button">Submit</button>
                              </div>
                            </div>`;
+        }
+        else{
+            display.innerHTML=`<div id=form-container>
+                             <form id="user-input-form">
+                                <label for="username">Enter second player name:</label><br>
+                                <input type="text" name="username" id="username">
+                             </form>;
+                             <div id="form-button-container">
+                                <button onclick="displayController.getFormDetails()" class="submit-button">Submit</button>
+                             </div>
+                           </div>`;
+        }
     };
     const startGame=()=>{
         let startButton=document.getElementById("start-button-container");
