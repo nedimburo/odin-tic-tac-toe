@@ -2,17 +2,27 @@ const gameBoard=(()=>{
     let playerOne;
     let playerTwo;
     let gameBoardArray=["X", "O", "X", "O", "X", "O", "X", "O", "X"];
+    let scoreLeft=0;
+    let scoreRight=0;
     const getArray=()=>gameBoardArray;
     const setPlayerOne=player=>playerOne=player;
     const getPlayerOne=()=>playerOne;
     const setPlayerTwo=player=>playerTwo=player;
     const getPlayerTwo=()=>playerTwo;
+    const increaseScoreLeft=()=>++scoreLeft;
+    const increaseScoreRight=()=>++scoreRight;
+    const getScoreLeft=()=>scoreLeft;
+    const getScoreRight=()=>scoreRight;
     return{
         getArray,
         setPlayerOne,
         getPlayerOne,
         setPlayerTwo,
         getPlayerTwo,
+        increaseScoreLeft,
+        increaseScoreRight,
+        getScoreLeft,
+        getScoreRight,
     }
 })();
 
@@ -20,6 +30,7 @@ const displayController=(()=>{
     const generateGrid=()=>{
         let display=document.getElementById("game-container");
         display.innerHTML="";
+        // For Grid
         let mainDiv=document.createElement("div");
         mainDiv.setAttribute("id", "grid-container");
         for (let i=0; i<gameBoard.getArray().length; i++){
@@ -29,6 +40,18 @@ const displayController=(()=>{
             mainDiv.appendChild(gridItem);
         }
         display.appendChild(mainDiv);
+        // For Scoreboard
+        let scoreBoard=document.createElement("div");
+        scoreBoard.setAttribute("id", "score-board-container");
+        let scoreTitle=document.createElement("h2");
+        scoreTitle.setAttribute("id", "score-board-title");
+        scoreTitle.textContent="Score:";
+        display.appendChild(scoreTitle);
+        scoreBoard.textContent=gameBoard.getPlayerOne().getName()+" "+
+                                gameBoard.getScoreLeft()+" - "+
+                                gameBoard.getScoreRight()+" "+
+                                gameBoard.getPlayerTwo().getName();
+        display.appendChild(scoreBoard);
         console.log(gameBoard.getPlayerOne().getName()+" "+gameBoard.getPlayerOne().getMarker());
         console.log(gameBoard.getPlayerTwo().getName()+" "+gameBoard.getPlayerTwo().getMarker());
     };
