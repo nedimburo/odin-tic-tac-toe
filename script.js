@@ -1,10 +1,12 @@
 const gameBoard=(()=>{
     let playerOne;
     let playerTwo;
-    let gameBoardArray=["X", "O", "X", "O", "X", "O", "X", "O", "X"];
+    let gameBoardArray=["", "", "", "", "", "", "", "", ""];
     let scoreLeft=0;
     let scoreRight=0;
     let roundCounter=1;
+    let roundInSession=false;
+    let playersTurn;
     const getArray=()=>gameBoardArray;
     const setPlayerOne=player=>playerOne=player;
     const getPlayerOne=()=>playerOne;
@@ -16,6 +18,15 @@ const gameBoard=(()=>{
     const getScoreRight=()=>scoreRight;
     const increaseRound=()=>++roundCounter;
     const getRound=()=>roundCounter;
+    const toggleRoundStatus=()=>{
+        (roundInSession) ? roundInSession=false : roundInSession=true;
+    };
+    const getRoundStatus=()=>roundInSession;
+    const setFirstTurn=()=>playersTurn=playerOne;
+    const togglePlayersTurn=()=>{
+        (playersTurn==playerOne) ? playersTurn=playerTwo : playersTurn=playerOne;
+    }
+    const getPlayersTurn=()=>playersTurn;
     return{
         getArray,
         setPlayerOne,
@@ -28,10 +39,20 @@ const gameBoard=(()=>{
         getScoreRight,
         increaseRound,
         getRound,
+        toggleRoundStatus,
+        getRoundStatus,
+        setFirstTurn,
+        togglePlayersTurn,
+        getPlayersTurn,
     }
 })();
 
 const displayController=(()=>{
+    const inputMarker=element=>{
+        gameBoard.getArray()[element.getAttribute("grid-position")]=gameBoard.getPlayersTurn().getMarker();
+        gameBoard.togglePlayersTurn();
+        generateGrid();
+    }
     const generateGrid=()=>{
         let display=document.getElementById("game-container");
         display.innerHTML="";
@@ -41,6 +62,8 @@ const displayController=(()=>{
         for (let i=0; i<gameBoard.getArray().length; i++){
             let gridItem=document.createElement("div");
             gridItem.classList.add("grid-item");
+            gridItem.setAttribute("grid-position", `${i}`);
+            gridItem.setAttribute("onclick", "displayController.inputMarker(this)");
             gridItem.textContent=gameBoard.getArray()[i];
             mainDiv.appendChild(gridItem);
         }
@@ -59,8 +82,6 @@ const displayController=(()=>{
         scoreBoard.innerHTML=`<p class="score-info">${gameBoard.getPlayerOne().getName()}: ${gameBoard.getScoreLeft()}</p><br>
                                 <p class="score-info">${gameBoard.getPlayerTwo().getName()}: ${gameBoard.getScoreRight()}</p>`;
         display.appendChild(scoreBoard);
-        console.log(gameBoard.getPlayerOne().getName()+" "+gameBoard.getPlayerOne().getMarker());
-        console.log(gameBoard.getPlayerTwo().getName()+" "+gameBoard.getPlayerTwo().getMarker());
     };
     const getFormDetails=()=>{
         let playersName=document.getElementById("username").value;
@@ -73,6 +94,8 @@ const displayController=(()=>{
         else{
             let player=Player(playersName, "O");
             gameBoard.setPlayerTwo(player);
+            gameBoard.setFirstTurn();
+            gameBoard.toggleRoundStatus();
             generateGrid();
         }
     };
@@ -112,6 +135,7 @@ const displayController=(()=>{
     return{
         startGame,
         getFormDetails,
+        inputMarker,
     }
 })();
 
