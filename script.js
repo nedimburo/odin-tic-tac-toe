@@ -4,6 +4,7 @@ const gameBoard=(()=>{
     let gameBoardArray=["X", "O", "X", "O", "X", "O", "X", "O", "X"];
     let scoreLeft=0;
     let scoreRight=0;
+    let roundCounter=1;
     const getArray=()=>gameBoardArray;
     const setPlayerOne=player=>playerOne=player;
     const getPlayerOne=()=>playerOne;
@@ -13,6 +14,8 @@ const gameBoard=(()=>{
     const increaseScoreRight=()=>++scoreRight;
     const getScoreLeft=()=>scoreLeft;
     const getScoreRight=()=>scoreRight;
+    const increaseRound=()=>++roundCounter;
+    const getRound=()=>roundCounter;
     return{
         getArray,
         setPlayerOne,
@@ -23,6 +26,8 @@ const gameBoard=(()=>{
         increaseScoreRight,
         getScoreLeft,
         getScoreRight,
+        increaseRound,
+        getRound,
     }
 })();
 
@@ -45,12 +50,14 @@ const displayController=(()=>{
         scoreBoard.setAttribute("id", "score-board-container");
         let scoreTitle=document.createElement("h2");
         scoreTitle.setAttribute("id", "score-board-title");
-        scoreTitle.textContent="Score:";
+        scoreTitle.textContent="SCORE";
         display.appendChild(scoreTitle);
-        scoreBoard.textContent=gameBoard.getPlayerOne().getName()+" "+
-                                gameBoard.getScoreLeft()+" - "+
-                                gameBoard.getScoreRight()+" "+
-                                gameBoard.getPlayerTwo().getName();
+        let roundInfo=document.createElement("p");
+        roundInfo.setAttribute("id", "round-info");
+        roundInfo.textContent="Round: "+gameBoard.getRound();
+        display.appendChild(roundInfo);
+        scoreBoard.innerHTML=`<p class="score-info">${gameBoard.getPlayerOne().getName()}: ${gameBoard.getScoreLeft()}</p><br>
+                                <p class="score-info">${gameBoard.getPlayerTwo().getName()}: ${gameBoard.getScoreRight()}</p>`;
         display.appendChild(scoreBoard);
         console.log(gameBoard.getPlayerOne().getName()+" "+gameBoard.getPlayerOne().getMarker());
         console.log(gameBoard.getPlayerTwo().getName()+" "+gameBoard.getPlayerTwo().getMarker());
@@ -77,7 +84,7 @@ const displayController=(()=>{
                              <form id="user-input-form">
                                 <label for="username">Enter first player name:</label><br>
                                 <input type="text" name="username" id="username">
-                             </form>;
+                             </form>
                              <div id="form-button-container">
                                 <button onclick="displayController.getFormDetails()" class="submit-button">Submit</button>
                              </div>
@@ -88,7 +95,7 @@ const displayController=(()=>{
                              <form id="user-input-form">
                                 <label for="username">Enter second player name:</label><br>
                                 <input type="text" name="username" id="username">
-                             </form>;
+                             </form>
                              <div id="form-button-container">
                                 <button onclick="displayController.getFormDetails()" class="submit-button">Submit</button>
                              </div>
