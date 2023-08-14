@@ -49,8 +49,14 @@ const gameBoard=(()=>{
 
 const displayController=(()=>{
     const inputMarker=element=>{
-        gameBoard.getArray()[element.getAttribute("grid-position")]=gameBoard.getPlayersTurn().getMarker();
-        gameBoard.togglePlayersTurn();
+        if (gameBoard.getArray()[element.getAttribute("grid-position")]==""){
+            gameBoard.getArray()[element.getAttribute("grid-position")]=gameBoard.getPlayersTurn().getMarker();
+            gameBoard.togglePlayersTurn();
+        }
+        else{
+            alert("Marker is already placed in selected field.");
+            return;
+        }
         generateGrid();
     }
     const generateGrid=()=>{
