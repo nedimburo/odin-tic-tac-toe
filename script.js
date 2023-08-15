@@ -25,8 +25,55 @@ const gameBoard=(()=>{
     const setFirstTurn=()=>playersTurn=playerOne;
     const togglePlayersTurn=()=>{
         (playersTurn==playerOne) ? playersTurn=playerTwo : playersTurn=playerOne;
-    }
+    };
     const getPlayersTurn=()=>playersTurn;
+    const checkGameBoard=()=>{
+        console.log(getArray());
+        let gridValue="";
+        // Checking Rows
+        for (let i=0; i<=6; i+=3){
+            for (let j=i; j<=i+2; j++){
+                gridValue+=getArray()[j];
+            }
+            if (gridValue=="XXX"){
+                console.log(getPlayerOne().getName() + " is the winner of the round.");
+            }
+            if (gridValue=="OOO"){
+                console.log(getPlayerTwo().getName() + " is the winner of the round.");
+            }
+            gridValue="";
+        }
+        // Checking Columns
+        for (let i=0; i<=2; i++){
+            for (let j=i; j<=i+6; j+=3){
+                gridValue+=getArray()[j];
+            }
+            if (gridValue=="XXX"){
+                console.log(getPlayerOne().getName() + " is the winner of the round.");
+            }
+            if (gridValue=="OOO"){
+                console.log(getPlayerTwo().getName() + " is the winner of the round.");
+            }
+            gridValue="";
+        }
+        // Checking Diagonals
+        gridValue=getArray()[0]+getArray()[4]+getArray()[8];
+        if (gridValue=="XXX"){
+            console.log(getPlayerOne().getName() + " is the winner of the round.");
+        }
+        if (gridValue=="OOO"){
+            console.log(getPlayerTwo().getName() + " is the winner of the round.");
+        }
+        gridValue="";
+        gridValue=getArray()[2]+getArray()[4]+getArray()[6];
+        if (gridValue=="XXX"){
+            console.log(getPlayerOne().getName() + " is the winner of the round.");
+        }
+        if (gridValue=="OOO"){
+            console.log(getPlayerTwo().getName() + " is the winner of the round.");
+        }
+        gridValue="";
+    };
     return{
         getArray,
         setPlayerOne,
@@ -44,6 +91,7 @@ const gameBoard=(()=>{
         setFirstTurn,
         togglePlayersTurn,
         getPlayersTurn,
+        checkGameBoard,
     }
 })();
 
@@ -51,6 +99,7 @@ const displayController=(()=>{
     const inputMarker=element=>{
         if (gameBoard.getArray()[element.getAttribute("grid-position")]==""){
             gameBoard.getArray()[element.getAttribute("grid-position")]=gameBoard.getPlayersTurn().getMarker();
+            gameBoard.checkGameBoard();
             gameBoard.togglePlayersTurn();
         }
         else{
