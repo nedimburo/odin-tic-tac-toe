@@ -89,6 +89,25 @@ const gameBoard=(()=>{
         }
         gridValue="";
     };
+    const nextRound=()=>{
+        gameBoardArray=["", "", "", "", "", "", "", "", ""];
+        playersTurn=playerOne;
+        toggleRoundStatus();
+        increaseRound();
+        displayController.generateGrid();
+        displayController.updateNextRound();
+    };
+    const cancelGame=()=>{
+        playerOne=undefined;
+        playerTwo=undefined;
+        gameBoardArray=["", "", "", "", "", "", "", "", ""];
+        scoreLeft=0;
+        scoreRight=0;
+        roundCounter=1;
+        roundInSession=false;
+        playersTurn=undefined;
+        displayController.restartScreen();
+    };
     return{
         getArray,
         setPlayerOne,
@@ -107,6 +126,8 @@ const gameBoard=(()=>{
         togglePlayersTurn,
         getPlayersTurn,
         checkGameBoard,
+        cancelGame,
+        nextRound,
     }
 })();
 
@@ -233,15 +254,38 @@ const displayController=(()=>{
             cancelGameButton.textContent="Cancel";
             nextRoundButton.classList.add("game-control-button");
             cancelGameButton.classList.add("game-control-button");
+            nextRoundButton.setAttribute("onclick", "gameBoard.nextRound()");
+            cancelGameButton.setAttribute("onclick", "gameBoard.cancelGame()");
             buttonsDisplay.appendChild(nextRoundButton);
             buttonsDisplay.appendChild(cancelGameButton);
         }
     };
+    const updateNextRound=()=>{
+        let winnerDisplay=document.getElementById("game-info-container");
+        winnerDisplay.style.display="none";
+        let buttonsDisplay=document.getElementById("game-control-button-container");
+        buttonsDisplay.innerHTML="";
+        buttonsDisplay.style.display="none";
+    };
+    const restartScreen=()=>{
+        let gameDisplay=document.getElementById("game-container");
+        gameDisplay.style.display="none";
+        let winnerDisplay=document.getElementById("game-info-container");
+        winnerDisplay.style.display="none";
+        let buttonsDisplay=document.getElementById("game-control-button-container");
+        buttonsDisplay.innerHTML="";
+        buttonsDisplay.style.display="none";
+        let startButton=document.getElementById("start-button-container");
+        startButton.style.display="flex";
+    };
     return{
         startGame,
+        generateGrid,
         getFormDetails,
         inputMarker,
         endOfRoundDisplay,
+        restartScreen,
+        updateNextRound,
     }
 })();
 
