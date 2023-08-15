@@ -28,7 +28,6 @@ const gameBoard=(()=>{
     };
     const getPlayersTurn=()=>playersTurn;
     const checkGameBoard=()=>{
-        console.log(getArray());
         let gridValue="";
         // Checking Rows
         for (let i=0; i<=6; i+=3){
@@ -36,10 +35,12 @@ const gameBoard=(()=>{
                 gridValue+=getArray()[j];
             }
             if (gridValue=="XXX"){
-                console.log(getPlayerOne().getName() + " is the winner of the round.");
+                increaseScoreLeft();
+                displayController.endOfRoundDisplay(getPlayerOne().getName());
             }
             if (gridValue=="OOO"){
-                console.log(getPlayerTwo().getName() + " is the winner of the round.");
+                increaseScoreRight();
+                displayController.endOfRoundDisplay(getPlayerTwo().getName());
             }
             gridValue="";
         }
@@ -49,28 +50,34 @@ const gameBoard=(()=>{
                 gridValue+=getArray()[j];
             }
             if (gridValue=="XXX"){
-                console.log(getPlayerOne().getName() + " is the winner of the round.");
+                increaseScoreLeft();
+                displayController.endOfRoundDisplay(getPlayerOne().getName());
             }
             if (gridValue=="OOO"){
-                console.log(getPlayerTwo().getName() + " is the winner of the round.");
+                increaseScoreRight();
+                displayController.endOfRoundDisplay(getPlayerTwo().getName());
             }
             gridValue="";
         }
         // Checking Diagonals
         gridValue=getArray()[0]+getArray()[4]+getArray()[8];
         if (gridValue=="XXX"){
-            console.log(getPlayerOne().getName() + " is the winner of the round.");
+            increaseScoreLeft();
+            displayController.endOfRoundDisplay(getPlayerOne().getName());
         }
         if (gridValue=="OOO"){
-            console.log(getPlayerTwo().getName() + " is the winner of the round.");
+            increaseScoreRight();
+            displayController.endOfRoundDisplay(getPlayerTwo().getName());
         }
         gridValue="";
         gridValue=getArray()[2]+getArray()[4]+getArray()[6];
         if (gridValue=="XXX"){
-            console.log(getPlayerOne().getName() + " is the winner of the round.");
+            increaseScoreLeft();
+            displayController.endOfRoundDisplay(getPlayerOne().getName());
         }
         if (gridValue=="OOO"){
-            console.log(getPlayerTwo().getName() + " is the winner of the round.");
+            increaseScoreRight();
+            displayController.endOfRoundDisplay(getPlayerTwo().getName());
         }
         gridValue="";
     };
@@ -187,10 +194,22 @@ const displayController=(()=>{
         display.style.display="block";
         createForm();
     };
+    const endOfRoundDisplay=playerName=>{
+        let display=document.getElementById("game-info-container");
+        display.style.display="block";
+        let roundInfo=document.getElementById("round-winner-info");
+        roundInfo.textContent=`${playerName} is the winner of the round.`
+        let scoreBoardUpdate=document.getElementById("score-board-container");
+        scoreBoardUpdate.innerHTML=`<p class="score-info">${gameBoard.getPlayerOne().getName()}: 
+                                        ${gameBoard.getScoreLeft()}</p><br>
+                                        <p class="score-info">${gameBoard.getPlayerTwo().getName()}: 
+                                        ${gameBoard.getScoreRight()}</p>`;
+    };
     return{
         startGame,
         getFormDetails,
         inputMarker,
+        endOfRoundDisplay,
     }
 })();
 
