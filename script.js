@@ -218,6 +218,24 @@ const displayController=(()=>{
                                         ${gameBoard.getScoreLeft()}</p><br>
                                         <p class="score-info">${gameBoard.getPlayerTwo().getName()}: 
                                         ${gameBoard.getScoreRight()}</p>`;
+        if (gameBoard.getScoreLeft()==3){
+
+        }
+        else if(gameBoard.getScoreRight()==3){
+
+        }
+        else{
+            let buttonsDisplay=document.getElementById("game-control-button-container");
+            buttonsDisplay.style.display="flex";
+            let nextRoundButton=document.createElement("button");
+            let cancelGameButton=document.createElement("button");
+            nextRoundButton.textContent="Next Round";
+            cancelGameButton.textContent="Cancel";
+            nextRoundButton.classList.add("game-control-button");
+            cancelGameButton.classList.add("game-control-button");
+            buttonsDisplay.appendChild(nextRoundButton);
+            buttonsDisplay.appendChild(cancelGameButton);
+        }
     };
     return{
         startGame,
