@@ -36,10 +36,12 @@ const gameBoard=(()=>{
             }
             if (gridValue=="XXX"){
                 increaseScoreLeft();
+                toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerOne().getName());
             }
             if (gridValue=="OOO"){
                 increaseScoreRight();
+                toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerTwo().getName());
             }
             gridValue="";
@@ -51,10 +53,12 @@ const gameBoard=(()=>{
             }
             if (gridValue=="XXX"){
                 increaseScoreLeft();
+                toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerOne().getName());
             }
             if (gridValue=="OOO"){
                 increaseScoreRight();
+                toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerTwo().getName());
             }
             gridValue="";
@@ -63,20 +67,24 @@ const gameBoard=(()=>{
         gridValue=getArray()[0]+getArray()[4]+getArray()[8];
         if (gridValue=="XXX"){
             increaseScoreLeft();
+            toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerOne().getName());
         }
         if (gridValue=="OOO"){
             increaseScoreRight();
+            toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerTwo().getName());
         }
         gridValue="";
         gridValue=getArray()[2]+getArray()[4]+getArray()[6];
         if (gridValue=="XXX"){
             increaseScoreLeft();
+            toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerOne().getName());
         }
         if (gridValue=="OOO"){
             increaseScoreRight();
+            toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerTwo().getName());
         }
         gridValue="";
@@ -104,14 +112,20 @@ const gameBoard=(()=>{
 
 const displayController=(()=>{
     const inputMarker=element=>{
-        if (gameBoard.getArray()[element.getAttribute("grid-position")]==""){
+        if (gameBoard.getArray()[element.getAttribute("grid-position")]=="" && gameBoard.getRoundStatus()){
             gameBoard.getArray()[element.getAttribute("grid-position")]=gameBoard.getPlayersTurn().getMarker();
             gameBoard.checkGameBoard();
             gameBoard.togglePlayersTurn();
         }
         else{
-            alert("Marker is already placed in selected field.");
-            return;
+            if (!gameBoard.getRoundStatus()){
+                alert("Round has finished.");
+                return;
+            }
+            else{
+                alert("Marker is already placed in selected field.");
+                return;
+            }
         }
         generateGrid();
     }
@@ -198,7 +212,7 @@ const displayController=(()=>{
         let display=document.getElementById("game-info-container");
         display.style.display="block";
         let roundInfo=document.getElementById("round-winner-info");
-        roundInfo.textContent=`${playerName} is the winner of the round.`
+        roundInfo.textContent=`${playerName} is the winner of the round.`;
         let scoreBoardUpdate=document.getElementById("score-board-container");
         scoreBoardUpdate.innerHTML=`<p class="score-info">${gameBoard.getPlayerOne().getName()}: 
                                         ${gameBoard.getScoreLeft()}</p><br>
