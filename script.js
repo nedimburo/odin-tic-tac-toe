@@ -97,6 +97,16 @@ const gameBoard=(()=>{
         displayController.generateGrid();
         displayController.updateNextRound();
     };
+    const restartGame=()=>{
+        gameBoardArray=["", "", "", "", "", "", "", "", ""];
+        playersTurn=playerOne;
+        scoreLeft=0;
+        scoreRight=0;
+        roundCounter=1;
+        toggleRoundStatus();
+        displayController.generateGrid();
+        displayController.clearWinner();
+    };
     const cancelGame=()=>{
         playerOne=undefined;
         playerTwo=undefined;
@@ -126,8 +136,9 @@ const gameBoard=(()=>{
         togglePlayersTurn,
         getPlayersTurn,
         checkGameBoard,
-        cancelGame,
         nextRound,
+        restartGame,
+        cancelGame,
     }
 })();
 
@@ -245,6 +256,19 @@ const displayController=(()=>{
             winnerOfGame.setAttribute("id", "game-winner");
             winnerOfGame.textContent="Winner of the game: "+gameBoard.getPlayerOne().getName();
             winnerDisplay.appendChild(winnerOfGame);
+            // For Buttons
+            let buttonsDisplay=document.getElementById("game-control-button-container");
+            buttonsDisplay.style.display="flex";
+            let restartGameButton=document.createElement("button");
+            let cancelGameButton=document.createElement("button");
+            restartGameButton.textContent="Restart Game";
+            cancelGameButton.textContent="Cancel";
+            restartGameButton.classList.add("game-control-button");
+            cancelGameButton.classList.add("game-control-button");
+            restartGameButton.setAttribute("onclick", "gameBoard.restartGame()");
+            cancelGameButton.setAttribute("onclick", "gameBoard.cancelGame()");
+            buttonsDisplay.appendChild(restartGameButton);
+            buttonsDisplay.appendChild(cancelGameButton);
         }
         else if(gameBoard.getScoreRight()==3){
             let winnerDisplay=document.getElementById("game-info-container");
@@ -252,6 +276,19 @@ const displayController=(()=>{
             winnerOfGame.setAttribute("id", "game-winner");
             winnerOfGame.textContent="Winner of the game: "+gameBoard.getPlayerTwo().getName();
             winnerDisplay.appendChild(winnerOfGame);
+            // For Buttons
+            let buttonsDisplay=document.getElementById("game-control-button-container");
+            buttonsDisplay.style.display="flex";
+            let restartGameButton=document.createElement("button");
+            let cancelGameButton=document.createElement("button");
+            restartGameButton.textContent="Restart Game";
+            cancelGameButton.textContent="Cancel";
+            restartGameButton.classList.add("game-control-button");
+            cancelGameButton.classList.add("game-control-button");
+            restartGameButton.setAttribute("onclick", "gameBoard.restartGame()");
+            cancelGameButton.setAttribute("onclick", "gameBoard.cancelGame()");
+            buttonsDisplay.appendChild(restartGameButton);
+            buttonsDisplay.appendChild(cancelGameButton);
         }
         else{
             let buttonsDisplay=document.getElementById("game-control-button-container");
@@ -279,12 +316,23 @@ const displayController=(()=>{
         let gameDisplay=document.getElementById("game-container");
         gameDisplay.style.display="none";
         let winnerDisplay=document.getElementById("game-info-container");
+        let removeWinnerInfo=document.getElementById("game-winner");
+        winnerDisplay.removeChild(removeWinnerInfo);
         winnerDisplay.style.display="none";
         let buttonsDisplay=document.getElementById("game-control-button-container");
         buttonsDisplay.innerHTML="";
         buttonsDisplay.style.display="none";
         let startButton=document.getElementById("start-button-container");
         startButton.style.display="flex";
+    };
+    const clearWinner=()=>{
+        let winnerDisplay=document.getElementById("game-info-container");
+        let removeWinnerInfo=document.getElementById("game-winner");
+        winnerDisplay.removeChild(removeWinnerInfo);
+        winnerDisplay.style.display="none";
+        let buttonsDisplay=document.getElementById("game-control-button-container");
+        buttonsDisplay.innerHTML="";
+        buttonsDisplay.style.display="none";
     };
     return{
         startGame,
@@ -294,6 +342,7 @@ const displayController=(()=>{
         endOfRoundDisplay,
         restartScreen,
         updateNextRound,
+        clearWinner,
     }
 })();
 
