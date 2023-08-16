@@ -38,11 +38,13 @@ const gameBoard=(()=>{
                 increaseScoreLeft();
                 toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerOne().getName());
+                return;
             }
             if (gridValue=="OOO"){
                 increaseScoreRight();
                 toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerTwo().getName());
+                return;
             }
             gridValue="";
         }
@@ -55,11 +57,13 @@ const gameBoard=(()=>{
                 increaseScoreLeft();
                 toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerOne().getName());
+                return;
             }
             if (gridValue=="OOO"){
                 increaseScoreRight();
                 toggleRoundStatus();
                 displayController.endOfRoundDisplay(getPlayerTwo().getName());
+                return;
             }
             gridValue="";
         }
@@ -69,11 +73,13 @@ const gameBoard=(()=>{
             increaseScoreLeft();
             toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerOne().getName());
+            return;
         }
         if (gridValue=="OOO"){
             increaseScoreRight();
             toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerTwo().getName());
+            return;
         }
         gridValue="";
         gridValue=getArray()[2]+getArray()[4]+getArray()[6];
@@ -81,13 +87,20 @@ const gameBoard=(()=>{
             increaseScoreLeft();
             toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerOne().getName());
+            return;
         }
         if (gridValue=="OOO"){
             increaseScoreRight();
             toggleRoundStatus();
             displayController.endOfRoundDisplay(getPlayerTwo().getName());
+            return;
         }
         gridValue="";
+        if (checkArrayStatus()){
+            toggleRoundStatus();
+            displayController.endOfRoundDisplay("TIE");
+            return;
+        }
     };
     const nextRound=()=>{
         gameBoardArray=["", "", "", "", "", "", "", "", ""];
@@ -117,6 +130,12 @@ const gameBoard=(()=>{
         roundInSession=false;
         playersTurn=undefined;
         displayController.restartScreen();
+    };
+    const checkArrayStatus=()=>{
+        for (let i=0; i<getArray().length; i++){
+            if (getArray()[i]=="") return false;
+        }
+        return true;
     };
     return{
         getArray,
@@ -244,7 +263,12 @@ const displayController=(()=>{
         let display=document.getElementById("game-info-container");
         display.style.display="block";
         let roundInfo=document.getElementById("round-winner-info");
-        roundInfo.textContent=`${playerName} is the winner of the round.`;
+        if (playerName=="TIE"){
+            roundInfo.textContent=`TIE: No winner in this round.`;
+        }
+        else{
+            roundInfo.textContent=`${playerName} is the winner of the round.`;
+        }
         let scoreBoardUpdate=document.getElementById("score-board-container");
         scoreBoardUpdate.innerHTML=`<p class="score-info">${gameBoard.getPlayerOne().getName()}: 
                                         ${gameBoard.getScoreLeft()}</p><br>
@@ -317,7 +341,9 @@ const displayController=(()=>{
         gameDisplay.style.display="none";
         let winnerDisplay=document.getElementById("game-info-container");
         let removeWinnerInfo=document.getElementById("game-winner");
-        winnerDisplay.removeChild(removeWinnerInfo);
+        if (removeWinnerInfo!=null){
+            winnerDisplay.removeChild(removeWinnerInfo);
+        }
         winnerDisplay.style.display="none";
         let buttonsDisplay=document.getElementById("game-control-button-container");
         buttonsDisplay.innerHTML="";
