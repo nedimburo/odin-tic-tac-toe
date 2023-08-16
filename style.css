@@ -151,6 +151,13 @@ body{
     margin-bottom: 20px;
 }
 
+#game-winner{
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    color: darkgreen;
+}
+
 #game-control-button-container{
     justify-content: space-between;
 }

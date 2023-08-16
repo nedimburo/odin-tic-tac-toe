@@ -240,10 +240,18 @@ const displayController=(()=>{
                                         <p class="score-info">${gameBoard.getPlayerTwo().getName()}: 
                                         ${gameBoard.getScoreRight()}</p>`;
         if (gameBoard.getScoreLeft()==3){
-
+            let winnerDisplay=document.getElementById("game-info-container");
+            let winnerOfGame=document.createElement("p");
+            winnerOfGame.setAttribute("id", "game-winner");
+            winnerOfGame.textContent="Winner of the game: "+gameBoard.getPlayerOne().getName();
+            winnerDisplay.appendChild(winnerOfGame);
         }
         else if(gameBoard.getScoreRight()==3){
-
+            let winnerDisplay=document.getElementById("game-info-container");
+            let winnerOfGame=document.createElement("p");
+            winnerOfGame.setAttribute("id", "game-winner");
+            winnerOfGame.textContent="Winner of the game: "+gameBoard.getPlayerTwo().getName();
+            winnerDisplay.appendChild(winnerOfGame);
         }
         else{
             let buttonsDisplay=document.getElementById("game-control-button-container");
