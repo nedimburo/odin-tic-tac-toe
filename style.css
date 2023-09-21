@@ -6,7 +6,7 @@
 }
 
 body{
-    background-color: #ffe6ab;
+    background-color: #ffe0b5;
 }
 
 #main-title{
@@ -14,6 +14,7 @@ body{
     font-size: 48px;
     padding: 10px;
     margin-bottom: 20px;
+    color: #732D0A;
 }
 
 #start-button-container{
@@ -26,11 +27,17 @@ body{
     font-size: 28px;
     font-weight: 700;
     letter-spacing: 5px;
-    background-color: white;
-    color: black;
-    border: 3px solid black;
+    background-color: #732D0A;
+    color: white;
+    border: 4px solid white;
     padding: 10px 30px;
     box-shadow: 3px 3px 5px gray;
+}
+
+#start-button:hover{
+    background-color: white;
+    color: black;
+    border: 4px solid black;
 }
 
 #form-container{
@@ -68,8 +75,13 @@ body{
     font-weight: 700;
     background-color: darkgreen;
     color: white;
-    border: 2px solid black;
+    border: 4px solid black;
     padding: 10px 50px;
+}
+
+.submit-button:hover{
+    background-color: #d1d5db;
+    color: black;
 }
 
 #game-container{
@@ -166,7 +178,13 @@ body{
     color: white;
     font-size: 28px;
     font-weight: 700;
-    background-color: darkred;
-    border: 2px solid black;
+    background-color: #732D0A;
+    border: 4px solid black;
     padding: 10px 40px;
+    box-shadow: 2px 2px 5px gray;
+}
+
+.game-control-button:hover{
+    color: black;
+    background-color: #d1d5db;
 }
